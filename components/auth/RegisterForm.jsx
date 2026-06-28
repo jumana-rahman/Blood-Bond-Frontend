@@ -19,13 +19,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
-
 import { donorRegisterSchema } from "@/lib/validations/donor.schema";
 import { uploadImage } from "@/lib/uploadImage";
 import { signUp } from "@/lib/auth-client";
 import Image from "next/image";
+import { Button } from "@heroui/react";
 
 const bloodGroups = [
   "A+",
@@ -72,8 +70,6 @@ export default function DonorRegisterForm() {
   });
 
   const selectedDistrict = watch("district");
-
-  // ... (All your existing useEffect, handleAvatarUpload, and onSubmit logic remains unchanged)
 
   useEffect(() => {
     const loadGeographicalData = async () => {
@@ -189,27 +185,40 @@ export default function DonorRegisterForm() {
       <div className="p-10">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* Full Name */}
-          <Input
-            label="Full Name"
-            placeholder="Enter your full name"
-            leftIcon={<User size={20} className="text-gray-400" />}
-            {...register("name")}
-            error={errors.name?.message}
-            className="bg-gray-50 border-gray-200 focus:border-[#C62828]"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <User size={20} />
+              </div>
+              <input
+                type="text"
+                {...register("name")}
+                placeholder="Enter your full name"
+                className="w-full pl-12 pr-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#C62828] focus:ring-1 focus:ring-[#C62828] text-base placeholder:text-gray-400"
+              />
+            </div>
+            {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
+          </div>
 
           {/* Email */}
-          <Input
-            label="Email Address"
-            type="email"
-            placeholder="Enter your email"
-            leftIcon={<Mail size={20} className="text-gray-400" />}
-            {...register("email")}
-            error={errors.email?.message}
-            className="bg-gray-50 border-gray-200 focus:border-[#C62828]"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Mail size={20} />
+              </div>
+              <input
+                type="email"
+                {...register("email")}
+                placeholder="Enter your email"
+                className="w-full pl-12 pr-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#C62828] focus:ring-1 focus:ring-[#C62828] text-base placeholder:text-gray-400"
+              />
+            </div>
+            {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
+          </div>
 
-          {/* Avatar Upload */}
+          {/* Avatar Upload - Unchanged */}
           <div>
             <label className="mb-3 block text-sm font-semibold text-gray-700">
               Profile Picture
@@ -234,8 +243,8 @@ export default function DonorRegisterForm() {
                 <div className="relative">
                   <Image
                     src={avatar}
-                    height={50}
-                    width={50}
+                    height={112}
+                    width={112}
                     alt="Avatar"
                     className="h-28 w-28 rounded-full border-4 border-white shadow-md object-cover ring-2 ring-[#C62828]/20"
                   />
@@ -318,29 +327,55 @@ export default function DonorRegisterForm() {
 
           {/* Password Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Input
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              placeholder="Minimum 6 characters"
-              leftIcon={<Lock size={20} className="text-gray-400" />}
-              rightIcon={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              onRightIconClick={() => setShowPassword(!showPassword)}
-              {...register("password")}
-              error={errors.password?.message}
-              className="bg-gray-50 border-gray-200 focus:border-[#C62828]"
-            />
+            {/* Password */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <Lock size={20} />
+                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  {...register("password")}
+                  placeholder="Minimum 6 characters"
+                  className="w-full pl-12 pr-12 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#C62828] focus:ring-1 focus:ring-[#C62828] text-base placeholder:text-gray-400"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>}
+            </div>
 
-            <Input
-              label="Confirm Password"
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm your password"
-              leftIcon={<Lock size={20} className="text-gray-400" />}
-              rightIcon={showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              onRightIconClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              {...register("confirmPassword")}
-              error={errors.confirmPassword?.message}
-              className="bg-gray-50 border-gray-200 focus:border-[#C62828]"
-            />
+            {/* Confirm Password */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <Lock size={20} />
+                </div>
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  {...register("confirmPassword")}
+                  placeholder="Confirm your password"
+                  className="w-full pl-12 pr-12 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#C62828] focus:ring-1 focus:ring-[#C62828] text-base placeholder:text-gray-400"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              {errors.confirmPassword && (
+                <p className="mt-1 text-sm text-red-500">{errors.confirmPassword.message}</p>
+              )}
+            </div>
           </div>
 
           {/* Terms */}
@@ -372,7 +407,7 @@ export default function DonorRegisterForm() {
             type="submit"
             loading={isSubmitting || uploading}
             disabled={isSubmitting || uploading}
-            className="w-full py-7 text-lg font-semibold bg-[#C62828] hover:bg-red-700 transition-all rounded-2xl shadow-lg shadow-red-200"
+            className="w-full py-7 text-lg font-semibold text-white bg-[#C62828] hover:bg-red-700 transition-all rounded-2xl shadow-lg shadow-red-200"
           >
             {uploading
               ? "Uploading Avatar..."
