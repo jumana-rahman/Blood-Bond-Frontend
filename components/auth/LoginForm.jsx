@@ -8,10 +8,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import SocialLogin from "./SocialLogin";
 
 import { loginSchema } from "@/lib/validations/auth.schema";
-import { Button, Input } from "@heroui/react";
+import { Button } from "@heroui/react";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -74,56 +73,57 @@ export default function LoginForm() {
 
       <div className="p-10">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-          {/* Email */}
-          <Input
-            label="Email Address"
-            type="email"
-            placeholder="Enter your email"
-            startContent={<Mail size={20} className="text-gray-400" />}
-            {...register("email")}
-            errorMessage={errors.email?.message}
-            classNames={{
-              base: "w-full",
-              inputWrapper: "bg-gray-50 border border-gray-200 p-4 w-full hover:border-gray-300 focus-within:border-[#C62828] rounded-2xl h-14",
-              label: "text-gray-700 font-medium",
-              input: "text-base placeholder:text-gray-400",
-            }}
-          />
+          {/* Email Field */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email Address
+            </label>
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Mail size={20} />
+              </div>
+              <input
+                type="email"
+                {...register("email")}
+                placeholder="Enter your email"
+                className="w-full pl-12 pr-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#C62828] focus:ring-1 focus:ring-[#C62828] text-base placeholder:text-gray-400"
+              />
+            </div>
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+            )}
+          </div>
 
-          {/* Password */}
-          <Input
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Enter your password"
-            startContent={<Lock size={20} className="text-gray-400" />}
-            endContent={
+          {/* Password Field */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Password
+            </label>
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Lock size={20} />
+              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                {...register("password")}
+                placeholder="Enter your password"
+                className="w-full pl-12 pr-12 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#C62828] focus:ring-1 focus:ring-[#C62828] text-base placeholder:text-gray-400"
+              />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="text-gray-400 hover:text-gray-600 focus:outline-none"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
-            }
-            {...register("password")}
-            errorMessage={errors.password?.message}
-            classNames={{
-              base: "w-full",
-              inputWrapper: "bg-gray-50 border border-gray-200 p-4 w-full hover:border-gray-300 focus-within:border-[#C62828] rounded-2xl h-14",
-              label: "text-gray-700 font-medium",
-              input: "text-base placeholder:text-gray-400",
-            }}
-          />
+            </div>
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+            )}
+          </div>
 
           {/* Remember Me & Forgot Password */}
           <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 cursor-pointer text-gray-600">
-              <input
-                type="checkbox"
-                className="w-4 h-4 accent-[#C62828] rounded"
-              />
-              Remember me
-            </label>
 
             <Link
               href="/forgot-password"
@@ -133,7 +133,7 @@ export default function LoginForm() {
             </Link>
           </div>
 
-          {/* Submit Button - Smaller Size */}
+          {/* Submit Button - Smaller */}
           <Button
             type="submit"
             isLoading={isSubmitting}
