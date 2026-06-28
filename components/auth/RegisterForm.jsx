@@ -25,6 +25,7 @@ import Input from "@/components/ui/Input";
 import { donorRegisterSchema } from "@/lib/validations/donor.schema";
 import { uploadImage } from "@/lib/uploadImage";
 import { signUp } from "@/lib/auth-client";
+import Image from "next/image";
 
 const bloodGroups = [
   "A+",
@@ -173,7 +174,7 @@ export default function DonorRegisterForm() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+    <div className="max-w-7xl mx-auto bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
       {/* Header */}
       <div className="bg-gradient-to-r from-[#C62828] to-red-700 px-10 py-12 text-white text-center">
         <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-md rounded-2xl mb-6">
@@ -231,8 +232,10 @@ export default function DonorRegisterForm() {
             {avatar && (
               <div className="mt-6 flex justify-center">
                 <div className="relative">
-                  <img
+                  <Image
                     src={avatar}
+                    height={50}
+                    width={50}
                     alt="Avatar"
                     className="h-28 w-28 rounded-full border-4 border-white shadow-md object-cover ring-2 ring-[#C62828]/20"
                   />

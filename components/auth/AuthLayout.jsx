@@ -4,11 +4,11 @@ export default function AuthLayout({
   right,
 }) {
   return (
-    <section className="min-h-screen grid lg:grid-cols-2">
+    <section className="min-h-screen bg-gray-50">
 
-      <div className="hidden lg:block">
+      {/* <div className="hidden lg:block">
         {left}
-      </div>
+      </div> */}
 
       <div className="flex items-center justify-center p-6 bg-gray-50">
         <div className="w-full max-w-md">
